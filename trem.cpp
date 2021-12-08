@@ -20,10 +20,34 @@ Trem::Trem (int ID, int x, int y, int coordXsup, int coordYinf){
     this->para = 0;
 
     this->mutexList = mutex;
+
+    // switch (this->ID) {
+    //     case 1:
+    //         this->velocidade = 1000;
+    //         break;
+    //     case 2:
+    //         this->velocidade = 1000;
+    //         break;
+    //     case 3:
+    //         this->velocidade = 1000;
+    //         break;
+    //     case 4:
+    //         this->velocidade = 30;
+    //         break;
+    //     case 5:
+    //         this->velocidade = 50;
+    //         break;
+    //     default:
+    //         break;
+    // }
     
 }
 
 void Trem::moverTrem() {
+    if(this->para) {
+        return;
+    }
+
     if(y == ySuperior && x < xSuperior)
         x+=10;
     else if(x == xSuperior && y < yInferior)
@@ -34,7 +58,7 @@ void Trem::moverTrem() {
         y-=10;
 
     emit updateGUI(ID, x,y);    //Emite um sinal
-    msleep(velocidade);
+    msleep(this->velocidade);
 }
 
 //Função a ser executada após executar trem->START
@@ -44,54 +68,28 @@ void Trem::run(){
         
         switch (this->ID) {
             case 1:
-                // // this->moverTrem();
-                // if(x == 380 && y == 130) {
-                //     mutex[1].lock();
-                //     // qDebug() << "ENTROU\n";
-                // } else if (x == 220 && y >= 130) {
-                //     mutex[1].unlock();
-                //     // qDebug() << "SAIU\n";
-                // }
                 regiaoCritica(1, 380, 130, 220, 130);
-                // --------------------
-                // if(x == 470 && y == 10) {
-                //     mutex[0].lock();
-                //     // qDebug() << "ENTROU\n";
-                // } else if (x == 470 && y == 130) {
-                //     mutex[0].unlock();
-                //     // qDebug() << "SAIU\n";
-                // }
                 regiaoCritica(0, 470, 10, 470, 130);
                 regiaoCritica(2, 490, 110, 340, 130);
                 break;
             case 2:
-                // this->moverTrem();
-                // if(x == 510 && y == 130) {
-                //     mutex[0].lock();
-                //     // qDebug() << "ENTROU\n";
-                // } else if (x == 510 && y == 10) {
-                //     mutex[0].unlock();
-                //     // qDebug() << "SAIU\n";
-                // }
                 regiaoCritica(0, 510, 130, 510, 10);
+                regiaoCritica(3, 650, 130, 490, 110);
+                regiaoCritica(4, 760, 110, 610, 130);
                 break;
             case 3:
-                // if(x == 200 && y == 130) {
-                //     mutex[1].lock();
-                //     // qDebug() << "ENTROU\n";
-                // } else if (x == 360 && y == 150) {
-                //     mutex[1].unlock();
-                //     // qDebug() << "SAIU\n";
-                // }
                 regiaoCritica(1, 200, 130, 360, 150);
+                regiaoCritica(5, 340, 130, 340, 250);
                 break;
             case 4:
-                // this->moverTrem();
                 regiaoCritica(2, 360, 150, 510, 130);
+                regiaoCritica(3, 470, 130, 630, 150);
+                regiaoCritica(5, 380, 250, 380, 130);
+                regiaoCritica(6, 610, 130, 610, 250);
                 break;
             case 5:
-                // this->moverTrem();
-
+                regiaoCritica(4, 630, 150, 780, 130);
+                regiaoCritica(6, 650, 250, 650, 130);
                 break;
             default:
                 break;
@@ -102,7 +100,7 @@ void Trem::run(){
 }
 
 void Trem::setVelocidade(int v) {
-    this->velocidade = 200 - v;
+    this->velocidade = this->velocidadeConst - v;
     this->para = this->velocidade == 200;
     // emit updateGUI(ID, x,y);    //Emite um sinal
 }
@@ -119,9 +117,11 @@ void Trem::setPara(int n) {
 void Trem::regiaoCritica(int trilho, int xInicio, int yInicio, int xFim, int yFim) {
     if(x == xInicio && y == yInicio) {
         this->mutexList[trilho].lock();
-        // qDebug() << "ENTROU\n";
     } else if (x == xFim && y >= yFim) {
         this->mutexList[trilho].unlock();
-        // qDebug() << "SAIU\n";
     }
+}
+
+int Trem::getVelocidade() {
+    return this->velocidade;
 }

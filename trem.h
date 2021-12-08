@@ -18,6 +18,7 @@ public:
     Trem(int ID, int x, int y, int coordXsup, int coordYinf);  //construtor
     void run();         // função a ser executada pela thread
     void setVelocidade(int v);
+    int getVelocidade();
     int getPara();
     void setPara(int n);
     void moverTrem();
@@ -41,7 +42,7 @@ private:
     int sleep;
     int velocidadeConst;
     int velocidade;
-    int para;
+    bool para;
 };
 
 #endif // TREM_H

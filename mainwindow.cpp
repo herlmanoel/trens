@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QDebug>
+
 #include <string.h>
 
 
@@ -112,6 +114,7 @@ void MainWindow::on_sliderTrem2_valueChanged(int value)
 void MainWindow::on_sliderTrem3_valueChanged(int value)
 {
     trem3->setVelocidade(value);
+    qDebug() << trem3->getVelocidade() << "\n";
 }
 
 void MainWindow::on_sliderTrem4_valueChanged(int value)
