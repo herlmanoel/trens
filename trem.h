@@ -15,7 +15,8 @@ class Trem: public QThread{
  Q_OBJECT
 public:
 //    Trem(int ID, int x, int y, int coordXsup, int coordYinf);  //construtor
-    Trem(int ID, int x, int y, int coordXsup, int coordYinf);  //construtor
+    Trem(int ID, int x, int y, int coordXsup, int coordYinf, int * mutexLocked);  //construtor
+    int * mutexLocked;
     void run();         // função a ser executada pela thread
     void setVelocidade(int v);
     int getVelocidade();
@@ -43,6 +44,7 @@ private:
     int velocidadeConst;
     int velocidade;
     bool para;
+    int velocidadeAnterior;
 };
 
 #endif // TREM_H

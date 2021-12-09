@@ -4,10 +4,13 @@
 
 static QMutex mutex[7];
 
-Trem::Trem (int ID, int x, int y, int coordXsup, int coordYinf){
+
+Trem::Trem (int ID, int x, int y, int coordXsup, int coordYinf, int * mutexLocked){
     this->ID = ID;
     this->x = x + 20;
     this->y = y;
+
+    this->mutexLocked = mutexLocked;
 
     this->xSuperior = coordXsup;
     this->xAux = x;
@@ -18,29 +21,11 @@ Trem::Trem (int ID, int x, int y, int coordXsup, int coordYinf){
     this->velocidadeConst = 200;
     this->velocidade = 100;
     this->para = 0;
-
-    this->mutexList = mutex;
-
-    // switch (this->ID) {
-    //     case 1:
-    //         this->velocidade = 1000;
-    //         break;
-    //     case 2:
-    //         this->velocidade = 1000;
-    //         break;
-    //     case 3:
-    //         this->velocidade = 1000;
-    //         break;
-    //     case 4:
-    //         this->velocidade = 30;
-    //         break;
-    //     case 5:
-    //         this->velocidade = 50;
-    //         break;
-    //     default:
-    //         break;
-    // }
+    this->velocidadeAnterior = 0;
     
+    
+    
+    this->mutexList = mutex;    
 }
 
 void Trem::moverTrem() {
@@ -65,11 +50,10 @@ void Trem::moverTrem() {
 void Trem::run(){
     while(true){
         this->moverTrem();
-        
         switch (this->ID) {
             case 1:
-                regiaoCritica(1, 380, 130, 220, 130);
                 regiaoCritica(0, 470, 10, 470, 130);
+                regiaoCritica(1, 380, 130, 220, 130);
                 regiaoCritica(2, 490, 110, 340, 130);
                 break;
             case 2:
@@ -82,6 +66,11 @@ void Trem::run(){
                 regiaoCritica(5, 340, 130, 340, 250);
                 break;
             case 4:
+                if(this->mutexLocked[1] == 1 && this->mutexLocked[2] == 1) {
+                    
+                    qDebug() << "DEADLOCK \n";
+
+                }
                 regiaoCritica(2, 360, 150, 510, 130);
                 regiaoCritica(3, 470, 130, 630, 150);
                 regiaoCritica(5, 380, 250, 380, 130);
@@ -99,12 +88,6 @@ void Trem::run(){
     }
 }
 
-void Trem::setVelocidade(int v) {
-    this->velocidade = this->velocidadeConst - v;
-    this->para = this->velocidade == 200;
-    // emit updateGUI(ID, x,y);    //Emite um sinal
-}
-
 int Trem::getPara() {
     return this->para;
 }
@@ -117,11 +100,27 @@ void Trem::setPara(int n) {
 void Trem::regiaoCritica(int trilho, int xInicio, int yInicio, int xFim, int yFim) {
     if(x == xInicio && y == yInicio) {
         this->mutexList[trilho].lock();
+        this->mutexLocked[trilho] = 1;
     } else if (x == xFim && y >= yFim) {
         this->mutexList[trilho].unlock();
+        this->mutexLocked[trilho] = 0;
     }
 }
 
 int Trem::getVelocidade() {
     return this->velocidade;
+}
+
+void Trem::setVelocidade(int v) {
+    if(this->velocidadeAnterior >= v) {
+        this->velocidade = this->velocidadeConst + v;
+    } else {
+        this->velocidade = this->velocidadeConst - v;
+    }
+    // this->velocidade = this->velocidadeConst - v;
+    this->para = this->velocidade == 200;
+    // qDebug() << "atual: , " << v << "anterior: "<< this->velocidadeConst << "\n";
+    // qDebug() << this->velocidade << "\n";
+    this->velocidadeAnterior = v;
+    // emit updateGUI(ID, x,y);    //Emite um sinal
 }

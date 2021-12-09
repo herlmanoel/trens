@@ -15,16 +15,20 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    int mutexLocked[7];
 
+    for (int i = 0; i < 7; i++) {
+        mutexLocked[i] = 0;
+    }
 
     // Cria o trem com seu (ID, posição X, posição Y)
     // int ID, int x, int y, int coordXsup, int coordYinf
-    trem1 = new Trem(1, 220, 10, 490, 130);
-    trem2 = new Trem(2, 490, 10, 760, 130);
-    trem3 = new Trem(3, 90, 130, 360, 250);
+    trem1 = new Trem(1, 220, 10, 490, 130, mutexLocked);
+    trem2 = new Trem(2, 490, 10, 760, 130, mutexLocked);
+    trem3 = new Trem(3, 90, 130, 360, 250, mutexLocked);
     // x, y, xS, xS, x, y, yI, yI
-    trem4 = new Trem(4, 360, 130, 630, 250);
-    trem5 = new Trem(5, 630, 130, 900, 250);
+    trem4 = new Trem(4, 360, 130, 630, 250, mutexLocked);
+    trem5 = new Trem(5, 630, 130, 900, 250, mutexLocked);
 
     /*
      * Conecta o sinal UPDATEGUI à função UPDATEINTERFACE.
@@ -76,29 +80,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-/*
- * Ao clicar, trens começam execução
- */
-void MainWindow::on_pushButton_clicked()
-{
-    trem1->start();
-    trem2->start();
-    trem3->start();
-    trem4->start();
-    trem5->start();
-}
 
-/*
- * Ao clicar, trens param execução
- */
-void MainWindow::on_pushButton_2_clicked()
-{
-    trem1->terminate();
-    trem2->terminate();
-    trem3->terminate();
-    trem4->terminate();
-    trem5->terminate();
-}
 
 void MainWindow::on_sliderTrem1_valueChanged(int value)
 {
@@ -108,7 +90,7 @@ void MainWindow::on_sliderTrem1_valueChanged(int value)
 void MainWindow::on_sliderTrem2_valueChanged(int value)
 {
 
-    trem2->setVelocidade(200 - value);
+    trem2->setVelocidade(value);
 }
 
 void MainWindow::on_sliderTrem3_valueChanged(int value)

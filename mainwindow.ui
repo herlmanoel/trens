@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>924</width>
-    <height>449</height>
+    <width>992</width>
+    <height>439</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QLabel" name="label_trem1">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>130</y>
+      <x>220</x>
+      <y>10</y>
       <width>21</width>
       <height>17</height>
      </rect>
@@ -94,32 +94,6 @@
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>390</x>
-      <y>280</y>
-      <width>99</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Ligar</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_2">
-    <property name="geometry">
-     <rect>
-      <x>510</x>
-      <y>280</y>
-      <width>98</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Parar</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_trilho4_2">
     <property name="geometry">
      <rect>
@@ -155,7 +129,7 @@
    <widget class="QLabel" name="label_trem2">
     <property name="geometry">
      <rect>
-      <x>510</x>
+      <x>490</x>
       <y>10</y>
       <width>21</width>
       <height>16</height>
@@ -203,8 +177,8 @@
    <widget class="QLabel" name="label_trem4">
     <property name="geometry">
      <rect>
-      <x>470</x>
-      <y>130</y>
+      <x>380</x>
+      <y>250</y>
       <width>21</width>
       <height>17</height>
      </rect>
@@ -251,7 +225,7 @@
    <widget class="QLabel" name="label_trem3">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>90</x>
       <y>130</y>
       <width>21</width>
       <height>17</height>
@@ -363,8 +337,8 @@
    <widget class="QLabel" name="label_trem5">
     <property name="geometry">
      <rect>
-      <x>490</x>
-      <y>110</y>
+      <x>630</x>
+      <y>130</y>
       <width>21</width>
       <height>17</height>
      </rect>
@@ -436,6 +410,9 @@
       <height>16</height>
      </rect>
     </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
     <property name="maximum">
      <number>200</number>
     </property>
@@ -452,8 +429,14 @@
       <height>16</height>
      </rect>
     </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
     <property name="maximum">
      <number>200</number>
+    </property>
+    <property name="value">
+     <number>0</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
@@ -534,7 +517,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>0</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="label_test_2">
@@ -547,7 +530,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>0</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="label_test_3">
@@ -560,7 +543,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>0</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="label_test_4">
@@ -573,7 +556,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>0</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="label_test_5">
@@ -586,15 +569,13 @@
      </rect>
     </property>
     <property name="text">
-     <string>0</string>
+     <string/>
     </property>
    </widget>
    <zorder>label_trilho1</zorder>
    <zorder>label_trilho2</zorder>
    <zorder>label_trilho3</zorder>
    <zorder>label_trilho4</zorder>
-   <zorder>pushButton</zorder>
-   <zorder>pushButton_2</zorder>
    <zorder>label_trilho4_2</zorder>
    <zorder>label_trilho1_2</zorder>
    <zorder>label_trilho1_3</zorder>
@@ -633,7 +614,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>924</width>
+     <width>992</width>
      <height>20</height>
     </rect>
    </property>
