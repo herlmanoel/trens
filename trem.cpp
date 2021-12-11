@@ -21,11 +21,9 @@ Trem::Trem (int ID, int x, int y, int coordXsup, int coordYinf, int * mutexLocke
     this->velocidadeConst = 200;
     this->velocidade = 100;
     this->para = 0;
-    this->velocidadeAnterior = 0;
+    this->velocidadeAnterior = 0;  
     
-    
-    
-    this->mutexList = mutex;    
+    this->mutexList = mutex;
 }
 
 void Trem::moverTrem() {
@@ -66,11 +64,6 @@ void Trem::run(){
                 regiaoCritica(5, 340, 130, 340, 250);
                 break;
             case 4:
-                if(this->mutexLocked[1] == 1 && this->mutexLocked[2] == 1) {
-                    
-                    qDebug() << "DEADLOCK \n";
-
-                }
                 regiaoCritica(2, 360, 150, 510, 130);
                 regiaoCritica(3, 470, 130, 630, 150);
                 regiaoCritica(5, 380, 250, 380, 130);
@@ -99,9 +92,14 @@ void Trem::setPara(int n) {
 
 void Trem::regiaoCritica(int trilho, int xInicio, int yInicio, int xFim, int yFim) {
     if(x == xInicio && y == yInicio) {
+        if(trilho == 4 && this->ID == 2) {
+             qDebug() << "Lock " << this->ID << "\n";
+        }
         this->mutexList[trilho].lock();
-        this->mutexLocked[trilho] = 1;
     } else if (x == xFim && y >= yFim) {
+        if(trilho == 4 && this->ID == 2) {
+             qDebug() << "unlock " << this->ID << "\n";
+        }
         this->mutexList[trilho].unlock();
         this->mutexLocked[trilho] = 0;
     }
