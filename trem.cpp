@@ -4,7 +4,6 @@
 
 static QMutex mutex[7];
 
-
 Trem::Trem (int ID, int x, int y, int coordXsup, int coordYinf, int * mutexLocked){
     this->ID = ID;
     this->x = x + 20;
@@ -47,9 +46,12 @@ void Trem::moverTrem() {
 //Função a ser executada após executar trem->START
 void Trem::run(){
     while(true){
+        
         this->moverTrem();
+
         switch (this->ID) {
             case 1:
+            
                 regiaoCritica(0, 470, 10, 470, 130);
                 regiaoCritica(1, 380, 130, 220, 130);
                 regiaoCritica(2, 490, 110, 340, 130);
@@ -60,10 +62,13 @@ void Trem::run(){
                 regiaoCritica(4, 760, 110, 610, 130);
                 break;
             case 3:
-                regiaoCritica(1, 200, 130, 360, 150);
+                regiaoCritica(1, 190, 130, 360, 150);
                 regiaoCritica(5, 340, 130, 340, 250);
                 break;
             case 4:
+                if(this->mutexLocked[3] == 0 && this->mutexLocked[1] == 0) {
+                    
+                }
                 regiaoCritica(2, 360, 150, 510, 130);
                 regiaoCritica(3, 470, 130, 630, 150);
                 regiaoCritica(5, 380, 250, 380, 130);
@@ -76,8 +81,8 @@ void Trem::run(){
             default:
                 break;
         }
-
-
+    
+        
     }
 }
 
@@ -91,13 +96,18 @@ void Trem::setPara(int n) {
 
 
 void Trem::regiaoCritica(int trilho, int xInicio, int yInicio, int xFim, int yFim) {
+    // while (x <= 610 && y == 130 && trilho == 4 && this->ID == 2) {
+    //     this->mutexList[trilho].lock();
+    //     qDebug() << "Lock " << this->ID << "\n";     
+    // }
+
     if(x == xInicio && y == yInicio) {
-        if(trilho == 4 && this->ID == 2) {
-             qDebug() << "Lock " << this->ID << "\n";
+        if(trilho == 4 && this->ID == 2 || this->ID == 5) {
+             qDebug() << "Lock " << this->ID << "\n";             
         }
         this->mutexList[trilho].lock();
-    } else if (x == xFim && y >= yFim) {
-        if(trilho == 4 && this->ID == 2) {
+    } else if (x == xFim && y == yFim) {
+        if(trilho == 4 && this->ID == 2 || this->ID == 5) {
              qDebug() << "unlock " << this->ID << "\n";
         }
         this->mutexList[trilho].unlock();
