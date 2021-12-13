@@ -51,8 +51,7 @@ void Trem::run(){
 
         switch (this->ID) {
             case 1:
-            
-                regiaoCritica(0, 470, 10, 470, 130);
+                regiaoCritica(0, 460, 10, 470, 130);
                 regiaoCritica(1, 380, 130, 220, 130);
                 regiaoCritica(2, 490, 110, 340, 130);
                 break;
